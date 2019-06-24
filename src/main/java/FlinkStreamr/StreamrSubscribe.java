@@ -7,22 +7,11 @@ import com.streamr.client.authentication.ApiKeyAuthenticationMethod;
 import com.streamr.client.options.StreamrClientOptions;
 import com.streamr.client.protocol.message_layer.StreamMessage;
 import com.streamr.client.rest.Stream;
-import org.apache.flink.api.common.functions.StoppableFunction;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.streaming.api.functions.async.ResultFuture;
-import org.apache.flink.streaming.api.functions.async.RichAsyncFunction;
-import org.apache.flink.streaming.api.functions.source.ParallelSourceFunction;
-import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
-import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.*;
-import java.util.function.Supplier;
 
 public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
     private static final Logger LOG = LoggerFactory.getLogger(StreamrSubscribe.class);
@@ -40,25 +29,24 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
 
     }
 
-//    @Override
-//    public void open(Configuration parametres) throws Exception{
-//        waitLock = new Object();
-//    }
-
     @Override
     public void run(final SourceContext<Map<String, Object>> ctx) throws Exception {
         LOG.info("Initializing Streamr API connection");
+
+        // Connect to Streamr
         client = new StreamrClient(new StreamrClientOptions(new ApiKeyAuthenticationMethod(apiKey)));
+        // Get Stream
         try {
             stream = client.getStream(streamId);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // Subscribe to the Stream
         this.sub = client.subscribe(stream, new MessageHandler() {
             @Override
             public void onMessage(Subscription subscription, StreamMessage streamMessage) {
-//                System.out.println(streamMessage);
                 try {
+                    // Pass the Stream message to Flink
                     ctx.collect(streamMessage.getContent());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -67,6 +55,7 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
         });
         LOG.info("Streamr API connection established successfully");
 
+        // Lock the run method until the application is stopped.
         waitLock = new Object();
         running = true;
         while (running) {

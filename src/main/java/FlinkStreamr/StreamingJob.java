@@ -43,12 +43,11 @@ public class StreamingJob {
 	public static void main(String[] args) throws Exception {
 		// set up the streaming execution environment
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-		System.out.println("asdasd");
-		StreamrSubscribe streamrSub = new StreamrSubscribe("Hb35dKItSxeJI9VSOPBLLAiF6EHACZQqGZo8mwKf3gJw", "7wa7APtlTq6EC5iTCBy6dw");
-		StreamrPublish streamPub = new StreamrPublish("Hb35dKItSxeJI9VSOPBLLAiF6EHACZQqGZo8mwKf3gJw", "4mygzRMwTveDCRVMZRyNiw");
+		StreamrSubscribe streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "YOUR_SUBSCRIPTION_STREAM_ID");
+		StreamrPublish streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "YOUR_PUBLISH_STREAM_ID");
 
 		DataStreamSource<Map<String, Object>> tramDataSource = env.addSource(streamrSub);
-//        tramDataSource.print();
+		// Filter the 6T trams.
 		DataStream<Map<String, Object>> stream = tramDataSource.filter(new FilterFunction<Map<String, Object>>() {
 			@Override
 			public boolean filter(Map<String, Object> s) throws Exception {
@@ -56,11 +55,8 @@ public class StreamingJob {
 
 			}
 		});
+		// Add the publish sink
 		stream.addSink(streamPub);
-
-//		DataStream<Map<String, Object>> stream = tramDataSource.map((MapFunction<Map<String, Object>, Map<String, Object>>)  s -> (Map<String, Object>) s);
-//		System.out.println("asdasdasd");
-//		stream.print();
 
 		env.execute("Trams");
 
