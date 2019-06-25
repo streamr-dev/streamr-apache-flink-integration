@@ -42,6 +42,26 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
             e.printStackTrace();
         }
         // Subscribe to the Stream
+        streamrSub(ctx);
+
+        LOG.info("Streamr API connection established successfully");
+
+        // Lock the run method until the application is stopped.
+        waitLock = new Object();
+        running = true;
+        while (running) {
+//            System.out.println(sub.isSubscribed());
+            synchronized (waitLock) {
+                waitLock.wait(200L);
+                if (!sub.isSubscribed()) {
+                    streamrSub(ctx);
+                }
+            }
+        }
+    }
+
+    // Subscribe to the stream
+    public void streamrSub(final SourceContext<Map<String, Object>> ctx) {
         this.sub = client.subscribe(stream, new MessageHandler() {
             @Override
             public void onMessage(Subscription subscription, StreamMessage streamMessage) {
@@ -53,16 +73,6 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
                 }
             }
         });
-        LOG.info("Streamr API connection established successfully");
-
-        // Lock the run method until the application is stopped.
-        waitLock = new Object();
-        running = true;
-        while (running) {
-            synchronized (waitLock) {
-                waitLock.wait(100L);
-            }
-        }
     }
 
     @Override
