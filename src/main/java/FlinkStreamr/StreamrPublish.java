@@ -33,6 +33,9 @@ public class StreamrPublish extends RichSinkFunction<Map<String, Object>> {
     }
     @Override
     public void invoke(Map<String, Object> in, Context ctx) {
+        if (client.getState() == StreamrClient.State.Disconnected) {
+            client.connect();
+        }
         client.publish(stream, in);
     }
 

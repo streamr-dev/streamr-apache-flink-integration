@@ -56,6 +56,9 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
                 if (!sub.isSubscribed()) {
                     streamrSub(ctx);
                 }
+                if (client.getState() == StreamrClient.State.Disconnected) {
+                    client.connect();
+                }
             }
         }
     }
