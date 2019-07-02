@@ -53,11 +53,11 @@ public class StreamrSubscribe implements SourceFunction<Map<String, Object>> {
 //            System.out.println(sub.isSubscribed());
             synchronized (waitLock) {
                 waitLock.wait(200L);
-                if (!sub.isSubscribed()) {
-                    streamrSub(ctx);
-                }
                 if (client.getState() == StreamrClient.State.Disconnected) {
                     client.connect();
+                }
+                if (!sub.isSubscribed()) {
+                    streamrSub(ctx);
                 }
             }
         }

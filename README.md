@@ -9,13 +9,22 @@ If you haven't already install Apache Flink. Guide for the installation can be f
 
 It's highly recommended to use Flinks quick start scripts to start up your projects as it requires you to do less configuration. (This repository is built and tested with Maven only but it's also possible to use [Gradle](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/projectsetup/java_api_quickstart.html#gradle))
 
-
+For Java:
 ```
 mvn archetype:generate                               \
       -DarchetypeGroupId=org.apache.flink              \
       -DarchetypeArtifactId=flink-quickstart-java      \
       -DarchetypeVersion=1.8.0
 ```
+
+For Scala:
+```
+mvn archetype:generate                               \
+      -DarchetypeGroupId=org.apache.flink              \
+      -DarchetypeArtifactId=flink-quickstart-scala     \
+      -DarchetypeVersion=1.8.0
+```
+The rest of the set up process is the same for Java and Scala with Maven.
 
 After you have started the project you need to add Streamr's client to your pom.xml file:
 
@@ -46,7 +55,7 @@ You also need to add the Ethereum repository to the pom.xml file for Streamr's c
 
 Now the project should be configured correctly to run Streamr's client in Flink.
 
-Now you can simply copy the [source code](./src/main/java/FlinkStreamr) in this repository and add your Streamr Api key and Stream Ids to the project's main class. You should use a different stream for subscribing and publishing. The Api key and and stream ids can be found in [Streamr's editor](www.streamr.com). You should create an account and the streams in the editor if you haven't done so already.
+Now you can simply copy the [Java source code](./src/main/java/FlinkStreamrJava) or [Scala source code](./src/main/FlinkStreamrScala) in this repository and add your Streamr Api key and Stream Ids to the project's main class. You should use a different stream for subscribing and publishing. The Api key and and stream ids can be found in [Streamr's editor](www.streamr.com). You should create an account and the streams in the editor if you haven't done so already.
 
 ## Running
 

@@ -13,8 +13,8 @@ public class StreamingJob {
 	public static void main(String[] args) throws Exception {
 		// set up the streaming execution environment
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-		StreamrSubscribe streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "SUBSCRIBE_STREAM_ID");
-		StreamrPublish streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "PUBLISH_STREAM_ID");
+		StreamrSubscribe streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "SUB_STREAM_ID");
+		StreamrPublish streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "PUB_STREAMR_ID");
 
 		DataStreamSource<Map<String, Object>> tramDataSource = env.addSource(streamrSub);
 		// Filter the 6T trams.
@@ -25,6 +25,7 @@ public class StreamingJob {
 			}
 		});
 		// Add the publish sink
+		stream.print();
 		stream.addSink(streamPub);
 
 		env.execute("Trams");
