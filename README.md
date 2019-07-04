@@ -5,6 +5,10 @@
 
 If you haven't already install Apache Flink. Guide for the installation can be found [here](https://ci.apache.org/projects/flink/flink-docs-release-1.8/tutorials/local_setup.html).
 
+The easiest way to get started with the templates is to clone the repo and open the Java or Scala project with Intellij Idea. The projects are preconfigured to be buildable and runnable with IDEA, so you can easily start working with the templates after adding your Streamr API key and stream IDs.
+
+If you wish to use another IDE, read further down the documentation on how to package the project and run it in a Flink cluster.
+
 ### Creating a project
 
 It's highly recommended to use Flinks quick start scripts to start up your projects as it requires you to do less configuration. (This repository is built and tested with Maven only but it's also possible to use [Gradle](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/projectsetup/java_api_quickstart.html#gradle))
@@ -57,11 +61,11 @@ Now the project should be configured correctly to run Streamr's client in Flink.
 
 Now you can simply copy the [Java source code](./src/main/java/FlinkStreamrJava) or [Scala source code](./src/main/FlinkStreamrScala) in this repository and add your Streamr Api key and Stream Ids to the project's main class. You should use a different stream for subscribing and publishing. The Api key and and stream ids can be found in [Streamr's editor](www.streamr.com). You should create an account and the streams in the editor if you haven't done so already.
 
-## Running
+## Running in a cluster
 
 Simply run 
 ```
-mvn compile
+mvn package
 ```
 in the project and the deploy the project to your flink cluster with: 
 
