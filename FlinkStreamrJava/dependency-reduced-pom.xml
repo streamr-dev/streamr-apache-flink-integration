@@ -3,9 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>FlinkStreamr</groupId>
   <artifactId>FlinkStreamr</artifactId>
-  <name>Flink Quickstart Job</name>
+  <name>Streamrflink</name>
   <version>1.0-SNAPSHOT</version>
-  <url>http://www.myorganization.org</url>
+  <description>A Streamr integration library for Apache Flink</description>
+  <url>https://github.com/streamr-dev/streamr-flink</url>
   <build>
     <pluginManagement>
       <plugins>
@@ -126,10 +127,6 @@
       <name>Apache Development Snapshot Repository</name>
       <url>https://repository.apache.org/content/repositories/snapshots/</url>
     </repository>
-    <repository>
-      <id>ethereum</id>
-      <url>https://dl.bintray.com/ethereum/maven</url>
-    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -187,18 +184,6 @@
           <groupId>org.apache.flink</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.7</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-      <scope>runtime</scope>
     </dependency>
   </dependencies>
   <properties>

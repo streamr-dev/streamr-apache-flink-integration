@@ -7,13 +7,15 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import java.util
 import java.util.Map
 
+import com.streamr.labs.streamr_flink.{StreamrPublish, StreamrSubscribe}
+
 
 object StreamingJob {
   @throws[Exception]
   def main(args: Array[String]): Unit = { // set up the streaming execution environment
     val env = StreamExecutionEnvironment.getExecutionEnvironment
-    val streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "SUB_STREAM_ID")
-    val streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "PUB_STREAM_ID")
+    val streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "YOUR_SUB_STREAM_ID")
+    val streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "YOUR_PUB_STREAM_ID")
     val tramDataSource = env.addSource(streamrSub)
     // Filter the 6T trams.
     val stream = tramDataSource.filter(new FilterFunction[util.Map[String, AnyRef]]() {

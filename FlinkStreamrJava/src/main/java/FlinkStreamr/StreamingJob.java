@@ -5,6 +5,8 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import com.streamr.labs.streamr_flink.StreamrPublish;
+import com.streamr.labs.streamr_flink.StreamrSubscribe;
 
 import java.util.Map;
 
@@ -13,8 +15,8 @@ public class StreamingJob {
 	public static void main(String[] args) throws Exception {
 		// set up the streaming execution environment
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-		StreamrSubscribe streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "SUB_STREAM_ID");
-		StreamrPublish streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "PUB_STREAMR_ID");
+		StreamrSubscribe streamrSub = new StreamrSubscribe("YOUR_STREAMR_API_KEY", "YOUR_SUB_STREAM_ID");
+		StreamrPublish streamPub = new StreamrPublish("YOUR_STREAMR_API_KEY", "YOUR_PUB_STREAM_ID");
 
 		DataStreamSource<Map<String, Object>> tramDataSource = env.addSource(streamrSub);
 		// Filter the 6T trams.

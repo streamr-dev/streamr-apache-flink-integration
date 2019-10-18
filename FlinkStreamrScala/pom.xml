@@ -104,9 +104,9 @@ under the License.
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.streamr</groupId>
-			<artifactId>client</artifactId>
-			<version>1.1.0</version>
+			<groupId>com.streamr.labs</groupId>
+			<artifactId>streamr_flink</artifactId>
+			<version>0.1</version>
 		</dependency>
 	</dependencies>
 
